@@ -1,0 +1,29 @@
+/* react-scripts\node_modules\eslint-config-react-app\base.jsと
+　 conflictエラーが発生したためテキストファイルにして無効化
+    { 
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [    
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier"
+  ],
+  "overrides": [
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "no-use-before-define": "off"
+  }
+} */
