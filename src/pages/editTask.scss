@@ -8,7 +8,8 @@
   }
   .edit-task-form {
     color: #555555;
-    .edit-task-title, .edit-task-detail {
+    .edit-task-title,
+    .edit-task-detail {
       width: 300px;
       margin-bottom: 25px;
     }
@@ -21,7 +22,7 @@
       border-radius: 5px;
     }
     .edit-task-button {
-      background-color: #242F9B;
+      background-color: #242f9b;
       color: #ffffff;
       width: 80px;
       height: 40px;
@@ -29,12 +30,3 @@
     }
   }
 }
-
-
-
-
-
-
-
-
-

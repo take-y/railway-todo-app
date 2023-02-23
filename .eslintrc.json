@@ -1,10 +1,11 @@
-/* react-scripts\node_modules\eslint-config-react-app\base.jsと
-　 conflictエラーが発生したためテキストファイルにして無効化
-    { 
+{ 
   "root": true,
   "env": {
+    "node": true,
+    "commonjs": true,
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest/globals": true
   },
   "extends": [    
     "eslint:recommended",
@@ -21,9 +22,16 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    "react",
+    "jest"
   ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "rules": {
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "react/prop-types": "off"
   }
-} */
+}

@@ -8,7 +8,9 @@
   }
   .new-task-form {
     color: #555555;
-    .new-task-select-list, .new-task-title, .new-task-detail {
+    .new-task-select-list,
+    .new-task-title,
+    .new-task-detail {
       width: 300px;
       margin-bottom: 25px;
     }
@@ -16,7 +18,7 @@
       height: 200px;
     }
     .new-task-button {
-      background-color: #242F9B;
+      background-color: #242f9b;
       color: #ffffff;
       width: 80px;
       height: 40px;
