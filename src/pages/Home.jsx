@@ -6,6 +6,8 @@ import { Header } from "../components/Header";
 import { url } from "../const";
 import "./home.scss";
 
+import moment from "moment";
+
 export const Home = () => {
   const [isDoneDisplay, setIsDoneDisplay] = useState("todo"); // todo->未完了 done->完了
   const [lists, setLists] = useState([]);
@@ -82,7 +84,7 @@ export const Home = () => {
               </p>
             </div>
           </div>
-          <ul className="list-tab">
+          <ul className="list-tab" role="tablist" aria-label="todo list tabs">
             {lists.map((list, key) => {
               const isActive = list.id === selectListId;
               return (
@@ -90,8 +92,17 @@ export const Home = () => {
                   key={key}
                   className={`list-tab-item ${isActive ? "active" : ""}`}
                   onClick={() => handleSelectList(list.id)}
+                  role={"presentation"}
                 >
-                  {list.title}
+                  <button
+                    type="button"
+                    role={"tab"}
+                    aria-selected={list.id === selectListId}
+                    tabIndex={0}
+                    aria-posinset={key + 1}
+                  >
+                    {list.title}
+                  </button>                 
                 </li>
               );
             })}
@@ -142,6 +153,11 @@ const Tasks = (props) => {
               >
                 {task.title}
                 <br />
+                {
+                  task.limit && 
+                  "期限: " + moment.utc(task.limit).local().format("YYYY/MM/DD HH:mm")
+                }
+                {task.limit && <br />}
                 {task.done ? "完了" : "未完了"}
               </Link>
             </li>
@@ -164,6 +180,14 @@ const Tasks = (props) => {
             >
               {task.title}
               <br />
+              {
+                task.limit && 
+                "期限: " + moment.utc(task.limit).local().format("YYYY/MM/DD HH:mm") + 
+                (moment.utc().isBefore(moment.utc(task.limit)) ? " 残り" + moment.utc(task.limit).diff(moment.utc(), 'days') + "日" + 
+                (moment.utc(task.limit).diff(moment.utc(), 'hours') % 24) + "時間" +
+                (moment.utc(task.limit).diff(moment.utc(), 'minutes') % 60) + "分": " 期限切れ")
+              }
+              {task.limit && <br />}
               {task.done ? "完了" : "未完了"}
             </Link>
           </li>

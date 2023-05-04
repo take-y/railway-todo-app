@@ -6,15 +6,26 @@ import { url } from "../const";
 import { useNavigate, useParams } from "react-router-dom";
 import "./editTask.scss";
 
+import moment from 'moment';
+import "moment/locale/ja";
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css";
+
 export const EditTask = () => {
   const navigate = useNavigate();
   const { listId, taskId } = useParams();
   const [cookies] = useCookies();
   const [title, setTitle] = useState("");
+  const [limit, setLimit] = useState();
   const [detail, setDetail] = useState("");
   const [isDone, setIsDone] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleLimitChange = (moment) => {
+    console.log(moment.utc().format("YYYY-MM-DDTHH:mm:ssZ"));
+    if(typeof moment === 'string') setLimit("");
+    else setLimit(moment.utc().format("YYYY-MM-DDTHH:mm:ssZ"));
+  }
   const handleDetailChange = (e) => setDetail(e.target.value);
   const handleIsDoneChange = (e) => setIsDone(e.target.value === "done");
   const onUpdateTask = () => {
@@ -24,6 +35,8 @@ export const EditTask = () => {
       detail: detail,
       done: isDone,
     };
+
+    if(limit) data.limit = limit
 
     axios
       .put(`${url}/lists/${listId}/tasks/${taskId}`, data, {
@@ -67,6 +80,7 @@ export const EditTask = () => {
         setTitle(task.title);
         setDetail(task.detail);
         setIsDone(task.done);
+        setLimit(task.limit);
       })
       .catch((err) => {
         setErrorMessage(`タスク情報の取得に失敗しました。${err}`);
@@ -87,6 +101,13 @@ export const EditTask = () => {
             onChange={handleTitleChange}
             className="edit-task-title"
             value={title}
+          />
+          <br />
+          <label>期限</label>
+          <Datetime
+            locale="ja"
+            onChange={handleLimitChange}
+            value={limit ? moment(limit) : ""}
           />
           <br />
           <label>詳細</label>

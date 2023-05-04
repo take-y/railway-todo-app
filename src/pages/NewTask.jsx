@@ -6,15 +6,25 @@ import { Header } from "../components/Header";
 import "./newTask.scss";
 import { useNavigate } from "react-router-dom";
 
+import moment from 'moment';  //eslint-disable-line
+import "moment/locale/ja";
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css";
+
 export const NewTask = () => {
   const [selectListId, setSelectListId] = useState();
   const [lists, setLists] = useState([]);
   const [title, setTitle] = useState("");
+  const [limit, setLimit] = useState("");
   const [detail, setDetail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [cookies] = useCookies();
   const navigate = useNavigate();
   const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleLimitChange = (moment) => {
+    if(typeof moment === 'string') setLimit("");
+    else setLimit(moment.utc().format("YYYY-MM-DDTHH:mm:ssZ"));
+  }
   const handleDetailChange = (e) => setDetail(e.target.value);
   const handleSelectList = (id) => setSelectListId(id);
   const onCreateTask = () => {
@@ -23,6 +33,8 @@ export const NewTask = () => {
       detail: detail,
       done: false,
     };
+
+    if(limit) data.limit = limit
 
     axios
       .post(`${url}/lists/${selectListId}/tasks`, data, {
@@ -80,6 +92,12 @@ export const NewTask = () => {
             type="text"
             onChange={handleTitleChange}
             className="new-task-title"
+          />
+          <br />
+          <label>期限</label>
+          <Datetime
+            locale="ja"
+            onChange={handleLimitChange}
           />
           <br />
           <label>詳細</label>
